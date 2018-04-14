@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>arangoProject</title>
+</head>
+<body>
+    <form action="/11" method="POST">
+        <div>
+            <label for="vertexName">vertex : </label>
+            <input type="text" name="vertexName" id="vertexName">
+        </div>
+        <div>
+            <input type="submit" value="vertex 생성">
+        </div>
+    </form>
+    <form action="/createEdgeDocument" method="POST">
+        <div>
+            <label for="edgeName">edge : </label>
+            <input type="text" name="edgeName" id="edgeName">
+            <label for="_from">_from : </label>
+            <input type="text" name="_from" id="_from">
+            <label for="_to">_to : </label>
+            <input type="text" name="_to" id="_to">
+        </div>
+        <div>
+            <input type="submit" value="edge x생성">
+        </div>
+    </form>
+</body>
+</html>
