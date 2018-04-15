@@ -1,16 +1,21 @@
 from flask import Blueprint, request, render_template
-from . import document
+from . import collection, connection
+from arango.model import *
 
 blueprint = Blueprint('_arango', __name__)
 
+
 @blueprint.route('/')
 def hello_world():
+    connection.arangoConnect()
     return render_template('main.html')
 
-@blueprint.route('/11', methods=["POST"])
+
+@blueprint.route('/createVertexEdge', methods=["POST"])
 def createVertexDocument():
     vertexName = request.form['vertexName']
     return vertexName
+
 
 @blueprint.route('/createEdgeDocument', methods=['post'])
 def createEdgeDocument():
