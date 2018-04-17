@@ -1,25 +1,28 @@
 from flask import Blueprint, request, render_template
+from arango.model.users import *
 from . import collection, connection
-from arango.model import *
 
 blueprint = Blueprint('_arango', __name__)
-
+arango = connection.arangoConnect()
 
 @blueprint.route('/')
 def hello_world():
-    connection.arangoConnect()
     return render_template('main.html')
 
 
-@blueprint.route('/createVertexEdge', methods=["POST"])
-def createVertexDocument():
-    vertexName = request.form['vertexName']
-    return vertexName
+@blueprint.route('/addVertex', methods=["POST"])
+def addVertex():
+    arango.addVertex('Users', { "name" : "111", "_key" : "newKey", "e":"e" } )
+    return "addVertex"
 
 
-@blueprint.route('/createEdgeDocument', methods=['post'])
-def createEdgeDocument():
-    edgeName = request.form['edgeName']
-    _from = request.form['_from']
-    _to = request.form['_to']
-    return edgeName+_from+_to
+@blueprint.route('/addRelation', methods=['post'])
+def addRelation():
+    _fromVertex = {"name":"from", "_key" : "from"}
+    _toVertex = {"name": "to", "_key": "to"}
+    arango.removeVertex('Users', "from")
+    arango.removeVertex('Groups', "to")
+    arango.addVertex('Users', _fromVertex)
+    arango.addVertex('Groups', _toVertex)
+    arango.addRelation('Members', 'Users', 'from', 'Groups', 'to', {"hello":"man"})
+    return "addRelation"
