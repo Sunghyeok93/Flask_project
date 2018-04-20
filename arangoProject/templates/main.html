@@ -3,25 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>arangoProject</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <form action="/addVertex" method="POST">
-        <div>
-            <label for="userName">vertex : </label>
-            <input type="text" name="userName" id="userName">
-        </div>
-        <div>
-            <input type="submit" value="유저 생성">
-        </div>
-    </form>
-    <form action="/addRelation" method="POST">
-        <div>
-            <label for="groupName">edge : </label>
-            <input type="text" name="groupName" id="groupName">
-        </div>
-        <div>
-            <input type="submit" value="그룹 생성">
-        </div>
-    </form>
+    <div>
+        <label> 유저 이름 : </label>
+        <input type="text" id="addUser_name">
+        <input type="submit" value="유저 추가" id="btn_addUser_submit">
+    </div>
+    <br>
+    <div>
+        <label> 유저 1 : </label>
+        <input type="text" id="addFriend_name1">
+        <label> 유저 2 : </label>
+        <input type="text" id="addFriend_name2">
+        <input type="submit" value="친구 추가" id="btn_addFriend_submit">
+    </div>
+    <br>
+    <div>
+        <label> 프로젝트 이름 : </label>
+        <input type="text" id="addProject_name">
+        <input type="submit" value="프로젝트 생성" id="btn_addProject_submit">
+    </div>
+    <br>
+    <div>
+        <label> 프로젝트 이름 : </label>
+        <input type="text" id="addAuthor_project">
+        <label> 유저 이름 : </label>
+        <input type="text" id="addAuthor_user">
+        <label> 권한(Owner/Participant) : </label>
+        <input type="text" id="addAuthor_author">
+        <input type="submit" value="프로젝트 참가" id="btn_addAuthor_submit">
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        var SERVER_URL = "http://127.0.0.1:8082";
+
+        var $addUser_Name = $("#addUser_name");
+        var $btn_addUser_submit = $("#btn_addUser_submit")
+        var $addFriend_name1 = $("#addFriend_name1")
+        var $addFriend_name2 = $("#addFriend_name2")
+        var $btn_addFriend_submit = $("#btn_addFriend_submit")
+        var $addProject_name = $("#addProject_name")
+        var $btn_addProject_submit = $("#btn_addProject_submit")
+        var $addAuthor_project = $("#addAuthor_project")
+        var $addAuthor_user = $("#addAuthor_user")
+        var $addAuthor_author = $("#addAuthor_author")
+        var $btn_addAuthor_submit = $("#btn_addAuthor_submit")
+
+        $btn_addUser_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/addUser", {
+                data : {
+                    name : $addUser_Name.val(),
+                }
+            });
+            posting.done(function( data ) {
+                console.log(data);
+            });
+        });
+
+        $btn_addFriend_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/addFriend", {
+                data : {
+                    name1 : $addFriend_name1.val(),
+                    name2 : $addFriend_name2.val()
+                }
+            });
+            posting.done(function( data ) {
+                console.log(data);
+            });
+        });
+
+        $btn_addProject_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/addProject", {
+                data : {
+                    name : $addProject_name.val()
+                }
+            });
+            posting.done(function( data ) {
+                console.log(data);
+            });
+        });
+
+        $btn_addAuthor_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/addAuthor", {
+                data : {
+                    project : $addAuthor_project.val(),
+                    user : $addAuthor_user.val(),
+                    author : $addAuthor_author.val()
+                }
+            });
+            posting.done(function( data ) {
+                console.log(data);
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

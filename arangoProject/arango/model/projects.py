@@ -3,7 +3,7 @@ import pyArango.validation as VAL
 from . import validation
 
 # 그룹 정보를 담을 도큐먼트용 컬렉션(Vertex)
-class Groups(COL.Collection):
+class Projects(COL.Collection):
     _validation = {
         'on_save': False,
         'on_set': False,
