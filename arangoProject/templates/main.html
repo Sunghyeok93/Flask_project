@@ -5,101 +5,333 @@
     <title>arangoProject</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
-<body>
+<body bgcolor="#E6E6FA">
     <div>
-        <label> 유저 이름 : </label>
-        <input type="text" id="addUser_name">
-        <input type="submit" value="유저 추가" id="btn_addUser_submit">
+        <label>    세션 - email : </label>
+        <input type="text" id="session_email">
+        <input type="submit" value="세션 접속" id="btn_session_submit">
+        <input type="submit" value="세션 해제" id="btn_sessionDelete_submit">
     </div>
     <br>
     <div>
-        <label> 유저 1 : </label>
-        <input type="text" id="addFriend_name1">
-        <label> 유저 2 : </label>
-        <input type="text" id="addFriend_name2">
-        <input type="submit" value="친구 추가" id="btn_addFriend_submit">
+        <label> 유저생성 - email : </label>
+        <input type="text" id="create_user_email">
+        <label> name : </label>
+        <input type="text" id="create_user_name">
+        <label> pwd : </label>
+        <input type="text" id="create_user_pwd">
+        <label> desc : </label>
+        <input type="text" id="create_user_desc">
+        <input type="submit" value="회원가입(유저생성)" id="create_user_btn">
     </div>
     <br>
     <div>
-        <label> 프로젝트 이름 : </label>
-        <input type="text" id="addProject_name">
-        <input type="submit" value="프로젝트 생성" id="btn_addProject_submit">
+        <label> 비번확인 - email : </label>
+        <input type="text" id="confirm_pwd_pwd">
+        <input type="submit" value="비밀번호 확인" id="confirm_pwd_btn">
     </div>
     <br>
     <div>
-        <label> 프로젝트 이름 : </label>
-        <input type="text" id="addAuthor_project">
-        <label> 유저 이름 : </label>
-        <input type="text" id="addAuthor_user">
-        <label> 권한(Owner/Participant) : </label>
-        <input type="text" id="addAuthor_author">
-        <input type="submit" value="프로젝트 참가" id="btn_addAuthor_submit">
+        <label> 유저확인 - email : </label>
+        <input type="text" id="return_user_email">
+        <input type="submit" value="유저 정보 제공" id="return_user_btn">
     </div>
+    <br>
+    <div>
+        <label> 유저수정 - email : </label>
+        <input type="text" id="edit_user_email">
+        <label> name : </label>
+        <input type="text" id="edit_user_name">
+        <label> pwd : </label>
+        <input type="text" id="edit_user_pwd">
+        <label> desc : </label>
+        <input type="text" id="edit_user_desc">
+        <input type="submit" value="유저 정보 수정" id="edit_user_btn">
+    </div>
+    <br>
+    <div>
+        <label> 회원탈퇴 - email : </label>
+        <input type="submit" value="회원탈퇴(유저삭제)" id="delete_user_btn">
+    </div>
+    <br>
+    <div>
+        <label> 친구요청 - email : </label>
+        <input type="text" id="send_friend_email">
+        <input type="submit" value="친구 요청 보내기" id="send_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 요청취소 - email : </label>
+        <input type="text" id="cancel_friend_email">
+        <input type="submit" value="친구 요청 취소" id="cancel_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 요청수락 - email : </label>
+        <input type="text" id="accept_friend_email">
+        <input type="submit" value="친구 요청 수락" id="accept_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 요청거절 - email : </label>
+        <input type="text" id="refuse_friend_email">
+        <input type="submit" value="친구 요청 거절" id="refuse_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 친구삭제 - email : </label>
+        <input type="text" id="delete_friend_email">
+        <input  type="submit" value="친구 삭제" id="delete_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 유저검색 - email : </label>
+        <input type="text" id="search_user_email">
+        <label> name : </label>
+        <input type="text" id="search_user_name">
+        <input type="submit" value="유저 검색" id="search_user_btn">
+    </div>
+    <br>
+    <div>
+        <label> 친구검색 - email : </label>
+        <input type="text" id="search_friend_email">
+        <label> name : </label>
+        <input type="text" id="search_friend_name">
+        <input type="submit" value="친구 검색" id="search_friend_btn">
+    </div>
+    <br>
+    <div>
+        <label> 친구목록 - </label>
+        <input type="submit" value="친구목록" id="list_friend_btn">
+    </div>
+
+    <div id="console" style="border: 2px solid dodgerblue; background: gray; color: #fff;"></div>
 
     <script type="text/javascript">
     $(document).ready(function () {
 
-        var SERVER_URL = "http://127.0.0.1:8082";
+        var SERVER_URL = "http://localhost:8082";
 
-        var $addUser_Name = $("#addUser_name");
-        var $btn_addUser_submit = $("#btn_addUser_submit")
-        var $addFriend_name1 = $("#addFriend_name1")
-        var $addFriend_name2 = $("#addFriend_name2")
-        var $btn_addFriend_submit = $("#btn_addFriend_submit")
-        var $addProject_name = $("#addProject_name")
-        var $btn_addProject_submit = $("#btn_addProject_submit")
-        var $addAuthor_project = $("#addAuthor_project")
-        var $addAuthor_user = $("#addAuthor_user")
-        var $addAuthor_author = $("#addAuthor_author")
-        var $btn_addAuthor_submit = $("#btn_addAuthor_submit")
+        var $session_email = $("#session_email")
+        var $btn_session_submit = $("#btn_session_submit")
+        var $btn_sessionDelete_submit = $("#btn_sessionDelete_submit")
 
-        $btn_addUser_submit.on("click", function () {
-            var posting = $.post( SERVER_URL + "/addUser", {
+        var $create_user_email = $("#create_user_email")
+        var $create_user_name = $("#create_user_name")
+        var $create_user_pwd = $("#create_user_pwd")
+        var $create_user_desc = $("#create_user_desc")
+        var $create_user_btn = $("#create_user_btn")
+
+        var $confirm_pwd_pwd = $("#confirm_pwd_pwd")
+        var $confirm_pwd_btn = $("#confirm_pwd_btn")
+
+        var $return_user_email = $("#return_user_email")
+        var $return_user_btn = $("#return_user_btn")
+
+        var $edit_user_email = $("#edit_user_email")
+        var $edit_user_name = $("#edit_user_name")
+        var $edit_user_pwd = $("#edit_user_pwd")
+        var $edit_user_desc = $("#edit_user_desc")
+        var $edit_user_btn = $("#edit_user_btn")
+
+        var $delete_user_btn = $("#delete_user_btn")
+
+        var $send_friend_email = $("#send_friend_email")
+        var $send_friend_btn = $("#send_friend_btn")
+
+        var $cancel_friend_email = $("#cancel_friend_email")
+        var $cancel_friend_btn = $("#cancel_friend_btn")
+        var $accept_friend_email = $("#accept_friend_email")
+        var $accept_friend_btn = $("#accept_friend_btn")
+        var $refuse_friend_email = $("#refuse_friend_email")
+        var $refuse_friend_btn = $("#refuse_friend_btn")
+        var $delete_friend_email = $("#delete_friend_email")
+        var $delete_friend_btn = $("#delete_friend_btn")
+
+        var $search_user_email = $("#search_user_email")
+        var $search_user_name = $("#search_user_name")
+        var $search_user_btn = $("#search_user_btn")
+
+        var $search_friend_email = $("#search_friend_email")
+        var $search_friend_name = $("#search_friend_name")
+        var $search_friend_btn = $("#search_friend_btn")
+
+        var $list_friend_btn = $("#list_friend_btn")
+
+        var $console = $("#console");
+
+        function addConsoleRow(type, data) {
+            console.log(data);
+            $console.append("<div>"+ type +data.status +" : "+ JSON.stringify(data)+"</div>");
+        }
+
+        $btn_session_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/addSession", {
                 data : {
-                    name : $addUser_Name.val(),
+                    email : $session_email.val()
                 }
             });
             posting.done(function( data ) {
-                console.log(data);
+                addConsoleRow("상태 : ", data);
             });
         });
 
-        $btn_addFriend_submit.on("click", function () {
-            var posting = $.post( SERVER_URL + "/addFriend", {
+        $btn_sessionDelete_submit.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/deleteSession", {
                 data : {
-                    name1 : $addFriend_name1.val(),
-                    name2 : $addFriend_name2.val()
+                    email: $session_email.val()
                 }
             });
             posting.done(function( data ) {
-                console.log(data);
+                addConsoleRow("상태 : ", data);
             });
         });
 
-        $btn_addProject_submit.on("click", function () {
-            var posting = $.post( SERVER_URL + "/addProject", {
+        $create_user_btn.on("click", function(){
+            var posting = $.post(SERVER_URL + "/db/create/user", {
                 data : {
-                    name : $addProject_name.val()
+                    email : $create_user_email.val(),
+                    name : $create_user_name.val(),
+                    pwd : $create_user_pwd.val(),
+                    desc : $create_user_desc.val()
                 }
             });
-            posting.done(function( data ) {
-                console.log(data);
+            posting.done( function(data) {
+                addConsoleRow("create_user : ", data);
             });
         });
 
-        $btn_addAuthor_submit.on("click", function () {
-            var posting = $.post( SERVER_URL + "/addAuthor", {
+        $confirm_pwd_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/confirm/pwd", {
                 data : {
-                    project : $addAuthor_project.val(),
-                    user : $addAuthor_user.val(),
-                    author : $addAuthor_author.val()
+                    pwd : $confirm_pwd_pwd.val()
                 }
             });
             posting.done(function( data ) {
-                console.log(data);
+                addConsoleRow("confirm pwd : ", data);
             });
         });
-    });
+
+        $return_user_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/return/user", {
+                data : {
+                    email : $return_user_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("return user : ", data);
+            });
+        });
+
+        $edit_user_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/edit/user", {
+                data : {
+                    email : $edit_user_email.val(),
+                    name : $edit_user_name.val(),
+                    pwd : $edit_user_pwd.val(),
+                    desc : $edit_user_desc.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("edit user : ", data);
+            });
+        });
+
+        $delete_user_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/delete/user");
+            posting.done(function( data ) {
+                addConsoleRow("delete user : ", data);
+            });
+        });
+
+        $send_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/send/friend", {
+                data : {
+                    email : $send_friend_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("send friend : ", data);
+            });
+        });
+
+        $cancel_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/cancel/friend", {
+                data : {
+                    email : $cancel_friend_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("cancel friend : ", data);
+            });
+        });
+
+        $accept_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/accept/friend", {
+                data : {
+                    email : $accept_friend_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("accept friend : ", data);
+            });
+        });
+
+        $refuse_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/refuse/friend", {
+                data : {
+                    email : $refuse_friend_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("refuse friend : ", data);
+            });
+        });
+
+        $delete_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/delete/friend", {
+                data : {
+                    email : $delete_friend_email.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("delete friend : ", data);
+            });
+        });
+
+        $search_user_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/search/user", {
+                data : {
+                    email : $search_user_email.val(),
+                    name : $search_user_name.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("search user : ", data);
+            });
+        });
+
+
+        $search_friend_btn.on("click", function () {
+            var posting = $.post( SERVER_URL + "/db/search/friend", {
+                data : {
+                    email : $search_friend_email.val(),
+                    name : $search_friend_name.val()
+                }
+            });
+            posting.done(function( data ) {
+                addConsoleRow("search friend : ", data);
+            });
+        });
+
+        $list_friend_btn.on("clock", function () {
+            var posting = $.post( SERVER_URL + "/db/list/friend");
+            posting.done(function( data ) {
+                addConsoleRow("list friend : ", data);
+            });
+        })
+    })
+
 
 </script>
 </body>

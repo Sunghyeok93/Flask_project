@@ -45,10 +45,13 @@ class arangoConnect():
         try :
             vertex = self.db.graphs[GRAPH].createVertex(VertexCollection, content)
             vertex.save()
-        except pyArangoException :
-            print('CONNECTION_ADDVERTEX_ERROR')
+        except KeyError :
+            print('CONNECTION_ADDVERTEX_KEYERROR')
             return False
-        return vertex
+        except Exception :
+            print('CONNECTION_ADDVERTEX_EXCEPTION')
+            return False
+        return True
 
     # 그래프 내 Edge Document(Relation) 생성
     # EdgeCollection  : 생성하고자 하는 Relation이 속하는 Collection
@@ -67,7 +70,7 @@ class arangoConnect():
             _to = self.db[_toCollection][_toVertex]
             relation = self.db.graphs[GRAPH].link(edgeCollection, _from, _to, content)
             relation.save()
-        except pyArangoException :
+        except Exception :
             print('CONNECTION_ADDRELATION_ERROR')
             return False
         return relation
@@ -95,3 +98,35 @@ class arangoConnect():
             print('CONNECTION_REMOVERELATION_ERROR')
             return False
         return True
+
+    #미완성
+    def returnVertex(self, VertexCollection, VertexKey):
+        try :
+            #aql = 'RETURN DOCUMENT("' + VertexCollection + '/'+ VertexKey+'")'
+            aql = 'FOR doc IN Users RETURN doc'
+            print("aql : " + aql)
+            result = self.db.AQLQuery(query=aql, rawResults=True, batchSize=100)
+
+        except Exception :
+            print('CONNECTION_RETURNVERTEX_ERROR')
+            return False
+        return result
+
+
+    #해당 컬렉션의 도큐먼트가 가지고 있는
+    def getEdges(self, VertexCollection, mode, Vertex):
+        col = self.db['Friends']
+        print('col : ' + str(col))
+        #if mode == 'in' :
+        #    result = col.getInEdges('Yuha')
+        #elif mode == 'out' :
+        #    result = self.db.collections[VertexCollection].getOutEdges(vertex=Vertex)
+
+        result = col.getEdges('Users/Yuha')
+
+        for r in result :
+            print(r)
+
+        return False
+
+    # _key 입력시 해당 도큐먼트 내용 주는 기능
