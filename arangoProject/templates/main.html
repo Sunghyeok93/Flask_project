@@ -102,16 +102,16 @@
     <br>
     <div>
         <label> 친구목록 - </label>
-        <input type="submit" value="친구목록" id="list_friend_btn">
+        <input type="submit" value="친구 목록" id="list_friend_btn">
     </div>
-
+    <br>
     <div id="console" style="border: 2px solid dodgerblue; background: gray; color: #fff;"></div>
 
     <script type="text/javascript">
     $(document).ready(function () {
 
-        var SERVER_URL = "http://localhost:8082";
-
+        var SERVER_URL = "http://175.158.15.45:8082";
+        //var SERVER_URL = "http://localhost:8082";
         var $session_email = $("#session_email")
         var $btn_session_submit = $("#btn_session_submit")
         var $btn_sessionDelete_submit = $("#btn_sessionDelete_submit")
@@ -166,12 +166,12 @@
         }
 
         $btn_session_submit.on("click", function () {
-            var posting = $.post( SERVER_URL + "/db/addSession", {
-                data : {
-                    email : $session_email.val()
+            var posting = $.post(SERVER_URL + "/db/addSession", {
+                data: {
+                    email: $session_email.val()
                 }
             });
-            posting.done(function( data ) {
+            posting.done(function (data) {
                 addConsoleRow("상태 : ", data);
             });
         });
@@ -324,15 +324,13 @@
             });
         });
 
-        $list_friend_btn.on("clock", function () {
+        $list_friend_btn.on("click", function () {
             var posting = $.post( SERVER_URL + "/db/list/friend");
             posting.done(function( data ) {
                 addConsoleRow("list friend : ", data);
             });
-        })
+        });
     })
-
-
 </script>
 </body>
 </html>
